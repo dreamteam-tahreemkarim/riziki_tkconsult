@@ -1,0 +1,5 @@
+plot_id,plant_id,stem_no,d30_cm,eventDate,recordedBy,decimalLatitude,decimalLongitude,coordinateUncertaintyInMeters,species_confirmed,crown_a_m,crown_b_m,height_m,plot_area_ha,measured_at_cm,dbh_cm,stem_status,plant_status,boundary_plant,identificationQualifier,notes
+BAR-01,1,1,6.2,2026-10-15,A. Kiprop / J. Lokai,0.4712,36.0211,4,yes,4.2,3.6,5.1,0.1,,,ok,live,no,,
+BAR-01,1,2,8.5,2026-10-15,A. Kiprop / J. Lokai,0.4712,36.0211,4,yes,4.2,3.6,5.1,0.1,,,ok,live,no,,
+BAR-01,1,3,11.0,2026-10-15,A. Kiprop / J. Lokai,0.4712,36.0211,4,yes,4.2,3.6,5.1,0.1,,,ok,live,no,,
+BAR-01,1,4,4.3,2026-10-15,A. Kiprop / J. Lokai,0.4712,36.0211,4,yes,4.2,3.6,5.1,0.1,,,ok,live,no,,
