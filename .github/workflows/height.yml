@@ -1,0 +1,41 @@
+# Tree height for one frame: started by functions/api/height.js when a client
+# taps "Estimate tree height" (Cloud server). Writes
+# dashboard/data/scans/<frame>/height.json and commits it; the dashboard picks
+# it up by request_id. Step names are what the dashboard's progress bar shows.
+name: height
+# run-name carries request_id so /api/progress can find this run.
+run-name: height ${{ inputs.frame }} ${{ inputs.request_id }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      frame: { description: "Frame, e.g. N0040_E03600", required: true }
+      request_id: { description: "From the dashboard", required: false, default: "" }
+
+concurrency:
+  group: height-${{ inputs.frame }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  height:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Inputs reach the scripts only through env, never pasted into shell code.
+    env:
+      FRAME: ${{ inputs.frame }}
+      REQUEST_ID: ${{ inputs.request_id }}
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with: { python-version: "3.13", cache: pip }
+      - name: Install
+        run: pip install -r requirements.txt
+      - name: Estimate tree height
+        run: python -m mapping.height "$FRAME" --request-id "$REQUEST_ID"
+      - name: Publish the result
+        run: tools/publish_results.sh "height ${FRAME}"

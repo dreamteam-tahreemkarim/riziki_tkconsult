@@ -1,0 +1,33 @@
+{
+ "demo": true,
+ "checked": "2026-11-18T07:50:50+00:00",
+ "latest_season": 2026,
+ "next_update": "2027-09",
+ "frames": {
+  "N0040_E03590": {
+   "scans": [
+    2026
+   ],
+   "status": "scout",
+   "images_to": "2026-08-28",
+   "newest_image": "2026-08-30"
+  },
+  "N0040_E03600": {
+   "scans": [
+    2026,
+    2016
+   ],
+   "status": "plan",
+   "images_to": "2026-08-28",
+   "newest_image": "2026-08-28"
+  },
+  "N0040_E03610": {
+   "scans": [
+    2026
+   ],
+   "status": "cannot",
+   "images_to": "2026-08-28",
+   "newest_image": "2026-08-28"
+  }
+ }
+}

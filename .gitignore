@@ -1,0 +1,8 @@
+# Training labels: download from https://doi.org/10.5061/dryad.4xgxd258c (see mapping/labels.py)
+data/labels/
+# Per-pixel GeoTIFFs are kept as workflow artifacts, not in git
+dashboard/data/scans/*/*_prosopis.tif
+__pycache__/
+*.pyc
+.DS_Store
+.cache/

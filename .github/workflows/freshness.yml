@@ -1,0 +1,39 @@
+# Daily: is there anything newer than what each scanned frame used?
+# Updates dashboard/data/index.json; the dashboard shows "up to date" or
+# "newer images published, scan again".
+name: freshness
+
+on:
+  schedule:
+    - cron: "17 3 * * *"          # 06:17 in Nairobi
+  workflow_dispatch:
+
+concurrency:
+  group: freshness
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13", cache: pip }
+      - run: pip install -r requirements.txt
+      - run: python -m mapping.imagery freshness
+      - name: Publish
+        run: |
+          git config user.name "riziki-scan-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dashboard/data/index.json
+          git diff --cached --quiet && exit 0
+          git commit -m "freshness check" --quiet
+          for attempt in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((attempt * 7))
+          done
+          exit 1

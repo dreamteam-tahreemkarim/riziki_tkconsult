@@ -1,0 +1,75 @@
+# Copies the maps to the website after every scan, tree-height run and freshness
+# check. Builds the password-locked, view-only copy (tools/build_site.py) and
+# pushes it to one folder of another repo, such as your personal site. Nothing
+# else in that repo is touched, and the website never calls back to this repo.
+#
+# ONE-TIME SETUP, in THIS repo: Settings > Secrets and variables > Actions
+#   Variables  SITE_REPO        the website repo, owner/name
+#              SITE_DIR         the folder in it for the map, e.g. riziki
+#              SITE_BRANCH      optional; default is the website repo's default branch
+#   Secrets    SITE_DEPLOY_KEY  private half of a deploy key with write access to
+#                               SITE_REPO only (README: "Put the map on your website")
+#              RIZIKI_PASSWORD  the map's password
+# Until all four are set this workflow does nothing and says so.
+name: deploy site
+
+on:
+  workflow_run:
+    workflows: [scan, height, freshness]
+    types: [completed]
+  push:
+    branches: [main]
+    paths: ["dashboard/**", "tools/build_site.py", "tools/deploy_site.sh"]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-site
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      READY: ${{ vars.SITE_REPO != '' && vars.SITE_DIR != '' && secrets.SITE_DEPLOY_KEY != '' && secrets.RIZIKI_PASSWORD != '' }}
+    steps:
+      - name: Check the setup
+        if: env.READY != 'true'
+        run: echo "::notice::Website copy skipped. Set the variables SITE_REPO and SITE_DIR and the secrets SITE_DEPLOY_KEY and RIZIKI_PASSWORD (see README)."
+
+      - name: Get the code
+        if: env.READY == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Get the website
+        if: env.READY == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.SITE_REPO }}
+          ref: ${{ vars.SITE_BRANCH }}
+          ssh-key: ${{ secrets.SITE_DEPLOY_KEY }}
+          path: _website
+
+      - name: Set up Python
+        if: env.READY == 'true'
+        uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+
+      - name: Install
+        if: env.READY == 'true'
+        run: pip install "cryptography==50.0.1"
+
+      - name: Build and push the map
+        if: env.READY == 'true'
+        env:
+          RIZIKI_PASSWORD: ${{ secrets.RIZIKI_PASSWORD }}
+          SITE_DIR: ${{ vars.SITE_DIR }}
+          WHY: ${{ github.event.workflow_run.display_title || github.event.head_commit.message || 'manual run' }}
+        run: |
+          tools/deploy_site.sh _website "$SITE_DIR" "Riziki map: $WHY"

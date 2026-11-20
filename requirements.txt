@@ -1,0 +1,20 @@
+# Mapping engine (python -m mapping.*). Pinned to the versions it was tested with.
+numpy==2.5.3
+pandas==3.0.5
+xarray==2026.9.0
+odc-stac==0.5.3
+odc-geo==0.5.4
+pystac-client==0.9.1
+planetary-computer==1.0.0
+rasterio==1.5.2
+geopandas==1.2.0
+pyogrio==0.13.0
+shapely==2.2.0
+pyproj==3.8.0
+scipy==1.18.1
+scikit-learn==1.9.1
+joblib==1.6.0
+pyyaml==6.0.3
+requests==2.34.2
+# tools/build_site.py (password-locked copy for a static host)
+cryptography==50.0.1

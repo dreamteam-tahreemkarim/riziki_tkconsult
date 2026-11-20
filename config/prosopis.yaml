@@ -1,0 +1,93 @@
+# Everything the mapping code needs to know about one plant.
+# New plant = copy this file, change it, train a new model. No code changes.
+
+species: Prosopis juliflora
+model_id: prosopis_s2_v1
+
+# Where the images come from. Planetary Computer is free and needs no account:
+# its links are signed for an hour at a time. It is also the only open catalog
+# with Sentinel-2 surface reflectance over Baringo for 2016, the label year.
+catalog:
+  url: https://planetarycomputer.microsoft.com/api/stac/v1
+  collection: sentinel-2-l2a
+  dem_collection: cop-dem-glo-30
+  sensor: Sentinel-2 L2A
+  max_cloud: 60                  # scene-level cloud %, before cloud pixels are masked
+  max_scenes_per_season: 6       # least cloudy first; keeps each scan to a few minutes
+
+# Season year Y = dry season Jan-Mar of Y + wet season Apr-Aug of Y.
+# Prosopis stays green in the dry season and the native Vachellia does not, so
+# the model compares the two. Mbaabu et al. 2019 paired each dry season with
+# the wet season BEFORE it (Feb 2016 + Jul 2015) because of Landsat timing; on
+# Sentinel-2 the 2015 wet season covers only 0.2% of Baringo, so we pair within
+# the year. A season can be scanned once its wet window closes (from September).
+seasons:
+  dry: {start_month: 1, end_month: 3, year_offset: 0}
+  wet: {start_month: 4, end_month: 8, year_offset: 0}
+  first: 2016                    # first full year of Sentinel-2 surface reflectance
+
+grid:
+  frame_deg: 0.1                 # fixed frames, ~11 x 11 km; must match dashboard/config.js
+  pixel_deg: 0.0002              # ~22 m pixels; 500 x 500 per frame
+  cells: 100                     # 100 x 100 cells per frame, ~111 m (~1.2 ha) each
+
+# Satellite band name -> our name.
+bands:
+  B02: blue
+  B03: green
+  B04: red
+  B08: nir
+  B11: swir1
+  B12: swir2
+  # B05: rededge1               # uncomment with the features below for the
+  # B06: rededge2               # red-edge upgrade (Cherotich et al. 2026)
+  # B07: rededge3
+
+# Mbaabu et al. 2019: six bands + NDVI for each season, plus elevation = 15.
+features:
+  per_season: [blue, green, red, nir, swir1, swir2, ndvi]
+  static: [elevation]            # in Baringo, dropping it costs ~0.04 kappa; try [] before scanning
+                                 # Turkana (hundreds of metres lower than any training point)
+  # per_season: [blue, green, red, nir, swir1, swir2, ndvi, rededge1, rededge2, rededge3, vari, rvi]
+
+labels:
+  dryad_path: data/labels/baringo_subloc_prosopis_invasion_year.shp
+  year: 2016
+  n_points: 8000                 # random over the mapped area (~14% land on Prosopis)
+  edge_buffer_m: 0               # >0 keeps only "clean" points; tested: maps 55% too much Prosopis
+  seed: 42
+
+model:
+  n_estimators: 1000             # Mbaabu et al. 2019; all else default
+  # The vote-share cut-off for "Prosopis" is chosen in training so the mapped
+  # area matches the labels in cross-validation (no over- or under-mapping).
+  block_km: 2                    # spatial cross-validation blocks
+  folds: 5
+
+# Share of Prosopis pixels in a ~1.2 ha cell. 0.5 is the dense/sparse line in
+# the Dryad data (sparse = under 50% cover). PLACEHOLDERS: calibrate against
+# crews' by-eye classes (stratify.DENSITY_CLASSES) at the same points.
+# Share of a ~1.2 ha cell's pixels the model calls Prosopis. Checked Nov 2026 against the 2016
+# dense/sparse map in the Dryad package (tools/check_density_cutoffs.py): thick at 0.50 finds 85%
+# of dense cells and fits best; sparse can't be told apart by any cut-off. Keep until crews' classes exist.
+density_cutoffs:
+  thin: 0.10
+  medium: 0.25
+  thick: 0.50
+unknown_cell_share: 0.5          # a cell is "can't judge" if more of it than this is unknown
+
+# PLACEHOLDERS: set with Riziki and Purity.
+gate:
+  plan_min_applicability: 0.90
+  scout_min_applicability: 0.70
+  min_valid_share: 0.80          # share of the frame with clear images
+  validated_regions: []          # frame ids checked on the ground, e.g. [N0040_E03600]
+
+field_plan:
+  plots_per_class: 4             # crew plots per density class when PLAN CREWS
+  checks_per_class: 8            # random check points per map class when SCOUT FIRST
+  seed: 7
+
+region: {south: -5.0, west: 33.5, north: 5.5, east: 42.0}
+output_dir: dashboard/data
+models_dir: models

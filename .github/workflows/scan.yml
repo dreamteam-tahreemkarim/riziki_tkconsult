@@ -1,0 +1,57 @@
+# One scan: started by functions/api/scan.js when a client taps "Scan".
+# Writes dashboard/data/scans/<frame>/<season>.json and commits it; Cloudflare
+# Pages redeploys and the dashboard picks the result up by request_id.
+name: scan
+# run-name carries request_id so /api/progress can find this run.
+run-name: scan ${{ inputs.frame }} ${{ inputs.season }} ${{ inputs.request_id }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      frame: { description: "Frame, e.g. N0040_E03600", required: true }
+      season: { description: "Season year, e.g. 2026", required: true }
+      request_id: { description: "From the dashboard", required: false, default: "" }
+
+# One run per frame and season at a time; different frames run side by side.
+concurrency:
+  group: scan-${{ inputs.frame }}-${{ inputs.season }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    # Inputs reach the scripts only through env, never pasted into shell code.
+    env:
+      FRAME: ${{ inputs.frame }}
+      SEASON: ${{ inputs.season }}
+      REQUEST_ID: ${{ inputs.request_id }}
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with: { python-version: "3.13", cache: pip }
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Scan
+        # scan.py writes a result even when it fails, so the client is never left waiting.
+        run: python -m mapping.scan --frame "$FRAME" --season "$SEASON" --request-id "$REQUEST_ID" --tif
+
+      - name: Keep the GeoTIFF for QGIS (90 days)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prosopis-${{ inputs.frame }}-${{ inputs.season }}
+          path: dashboard/data/scans/*/*_prosopis.tif
+          if-no-files-found: ignore
+
+      - name: Publish the result
+        if: always()
+        run: |
+          rm -f dashboard/data/scans/*/*_prosopis.tif
+          tools/publish_results.sh "scan ${FRAME} ${SEASON}"

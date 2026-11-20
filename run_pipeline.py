@@ -256,7 +256,8 @@ def run(
 
         # ---------- 2. each measured plot
         plots = fd.to_plots(rows, drop_unconfirmed=True)
-        dropped = len(rows) - sum(len(t) for p in plots.values() for t in p["trees"])
+        stem_rows = sum(1 for r in rows if r.get("stem_status", "").lower() != "none")
+        dropped = stem_rows - sum(len(t) for p in plots.values() for t in p["trees"])
         if dropped:
             res._log(f"  {dropped} stem row(s) set aside (species unconfirmed, or "
                      f"marked unmeasured). Still in your sheet, just not counted.")
@@ -393,7 +394,7 @@ def run(
         res.ok = True
         return res
 
-    except PipelineError as e:
+    except (PipelineError, fd.FieldSheetError) as e:
         res._log(f"STOPPED: {e}")
         return res
     except Exception as e:                                    # noqa: BLE001
@@ -405,3 +406,13 @@ def run(
 
 
 __all__ = ["run", "Result", "PipelineError", "SOURCES", "KEY"]
+
+
+if __name__ == "__main__":
+    # python run_pipeline.py field_sheet.csv [grid_sheet.csv]
+    import sys
+    if len(sys.argv) < 2:
+        print(__doc__)
+        sys.exit(0)
+    result = run(*sys.argv[1:3])
+    print(result.report())

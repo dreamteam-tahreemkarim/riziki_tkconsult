@@ -1,0 +1,66 @@
+year,table,class,samples_whole_county,samples_lowland_subset,reference_source
+1988,S6,Prosopis,66,66,31/12/1988
+1988,S6,Vachellia tortilis,89,53,31/12/1988
+1988,S6,Vachellia reficiens,85,73,31/12/1988
+1988,S6,Mixed vegetation,61,34,31/12/1988
+1988,S6,Indigenous forest,58,0,31/12/1988
+1988,S6,Plantation forest,65,0,31/12/1988
+1988,S6,Water,57,36,31/12/1988
+1988,S6,Rainfed cropland,70,10,31/12/1988
+1988,S6,Bareland,80,30,31/12/1988
+1988,S6,Grassland,63,51,31/12/1988
+1988,S6,Balinites aegyptica,67,1,31/12/1988
+1988,S6,Irrigated cropland,28,28,31/12/1988
+1988,S6,Waterweeds,37,26,31/12/1988
+1995,S7,Prosopis,77,77,31/12/1995
+1995,S7,Vachellia tortilis,87,50,31/12/1995
+1995,S7,Vachellia reficiens,85,73,31/12/1995
+1995,S7,Mixed vegetation,61,34,31/12/1995
+1995,S7,Indigenous forest,58,0,31/12/1995
+1995,S7,Plantation forest,64,0,31/12/1995
+1995,S7,Water,52,36,31/12/1995
+1995,S7,Rainfed cropland,53,1,31/12/1995
+1995,S7,Bareland,77,29,31/12/1995
+1995,S7,Grassland,90,83,31/12/1995
+1995,S7,Balinites aegyptica,67,1,31/12/1995
+1995,S7,Irrigated cropland,28,32,31/12/1995
+1995,S7,Waterweeds,38,29,31/12/1995
+2002,S8,Prosopis,61,61,"15/05/2002,  07/12/2002,  20/11/2001, 02/10/2003, 31/12/2002,"
+2002,S8,Vachellia tortilis,77,48,"15/05/2002,  07/12/2002,  20/11/2001, 02/10/2003, 31/12/2002,"
+2002,S8,Vachellia reficiens,85,73,"15/05/2002,  07/12/2002,  20/11/2001, 02/10/2003, 31/12/2002,"
+2002,S8,Mixed vegetation,61,34,"15/05/2002,  07/12/2002,  20/11/2001, 02/10/2003, 31/12/2002,"
+2002,S8,Indigenous forest,58,0,"15/05/2002,  07/12/2002,  20/11/2001, 02/10/2003, 31/12/2002,"
+2002,S8,Plantation forest,64,0,"15/05/2002,  07/12/2002,  20/11/2001, 02/10/2003, 31/12/2002,"
+2002,S8,Water,67,42,"15/05/2002,  07/12/2002,  20/11/2001, 02/10/2003, 31/12/2002,"
+2002,S8,Rainfed cropland,70,10,"15/05/2002,  07/12/2002,  20/11/2001, 02/10/2003, 31/12/2002,"
+2002,S8,Bareland,80,30,"15/05/2002,  07/12/2002,  20/11/2001, 02/10/2003, 31/12/2002,"
+2002,S8,Grassland,41,41,"15/05/2002,  07/12/2002,  20/11/2001, 02/10/2003, 31/12/2002,"
+2002,S8,Balinites aegyptica,63,0,"15/05/2002,  07/12/2002,  20/11/2001, 02/10/2003, 31/12/2002,"
+2002,S8,Irrigated cropland,34,34,"15/05/2002,  07/12/2002,  20/11/2001, 02/10/2003, 31/12/2002,"
+2002,S8,Waterweeds,40,29,"15/05/2002,  07/12/2002,  20/11/2001, 02/10/2003, 31/12/2002,"
+2009,S9,Prosopis,84,84,"27/02/2007, 12/11/2009, 31/12/2009"
+2009,S9,Vachellia tortilis,61,29,"27/02/2007, 12/11/2009, 31/12/2009"
+2009,S9,Vachellia reficiens,85,73,"27/02/2007, 12/11/2009, 31/12/2009"
+2009,S9,Mixed vegetation,61,34,"27/02/2007, 12/11/2009, 31/12/2009"
+2009,S9,Indigenous forest,58,0,"27/02/2007, 12/11/2009, 31/12/2009"
+2009,S9,Plantation forest,64,0,"27/02/2007, 12/11/2009, 31/12/2009"
+2009,S9,Water,65,42,"27/02/2007, 12/11/2009, 31/12/2009"
+2009,S9,Rainfed cropland,65,10,"27/02/2007, 12/11/2009, 31/12/2009"
+2009,S9,Bareland,80,30,"27/02/2007, 12/11/2009, 31/12/2009"
+2009,S9,Grassland,59,19,"27/02/2007, 12/11/2009, 31/12/2009"
+2009,S9,Balinites aegyptica,64,1,"27/02/2007, 12/11/2009, 31/12/2009"
+2009,S9,Irrigated cropland,37,37,"27/02/2007, 12/11/2009, 31/12/2009"
+2009,S9,Waterweeds,44,22,"27/02/2007, 12/11/2009, 31/12/2009"
+2016,S10,Prosopis,88,88,Field data was collected between October 2015 and June 2016
+2016,S10,Vachellia tortilis,65,33,Field data was collected between October 2015 and June 2016
+2016,S10,Vachellia reficiens,85,73,Field data was collected between October 2015 and June 2016
+2016,S10,Mixed vegetation,64,37,Field data was collected between October 2015 and June 2016
+2016,S10,Indigenous forest,58,0,Field data was collected between October 2015 and June 2016
+2016,S10,Plantation forest,65,0,Field data was collected between October 2015 and June 2016
+2016,S10,Water,70,42,Field data was collected between October 2015 and June 2016
+2016,S10,Rainfed cropland,70,10,Field data was collected between October 2015 and June 2016
+2016,S10,Bareland,80,30,Field data was collected between October 2015 and June 2016
+2016,S10,Grassland,49,44,Field data was collected between October 2015 and June 2016
+2016,S10,Balinites aegyptica,70,1,Field data was collected between October 2015 and June 2016
+2016,S10,Irrigated cropland,63,63,Field data was collected between October 2015 and June 2016
+2016,S10,Waterweeds,70,55,Field data was collected between October 2015 and June 2016

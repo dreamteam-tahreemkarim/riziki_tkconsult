@@ -1,0 +1,27 @@
+{
+ "demo": false,
+ "checked": "2026-11-19T04:56:08+00:00",
+ "latest_season": 2026,
+ "next_update": "2027-09",
+ "frames": {
+  "N0040_E03600": {
+   "scans": [
+    2026,
+    2016
+   ],
+   "height": "2019-05-22",
+   "status": "scout",
+   "images_to": "2026-08-28",
+   "newest_image": "2026-08-28"
+  },
+  "N0060_E03600": {
+   "scans": [
+    2026
+   ],
+   "height": "2019-06-01",
+   "status": "scout",
+   "images_to": "2026-08-28",
+   "newest_image": "2026-08-28"
+  }
+ }
+}

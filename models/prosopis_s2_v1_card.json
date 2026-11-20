@@ -1,0 +1,172 @@
+{
+ "model_id": "prosopis_s2_v1",
+ "created": "2026-11-18T07:44:38+00:00",
+ "species": "Prosopis juliflora",
+ "sensor": "Sentinel-2 L2A",
+ "catalog": "https://planetarycomputer.microsoft.com/api/stac/v1",
+ "collection": "sentinel-2-l2a",
+ "season": 2016,
+ "images": {
+  "sensor": "Sentinel-2 L2A",
+  "dry": {
+   "window": [
+    "2016-01-01",
+    "2016-03-31"
+   ],
+   "found": 13,
+   "n_scenes": 6,
+   "dates": [
+    "2016-01-08",
+    "2016-02-07",
+    "2016-02-14",
+    "2016-02-17",
+    "2016-03-05",
+    "2016-03-15"
+   ],
+   "ids": [
+    "S2A_MSIL2A_20160108T075312_R135_T36NZF_20210527T115300",
+    "S2A_MSIL2A_20160207T075102_R135_T36NZF_20210528T033248",
+    "S2A_MSIL2A_20160214T074022_R092_T36NZF_20210211T000438",
+    "S2A_MSIL2A_20160217T075002_R135_T36NZF_20210530T081430",
+    "S2A_MSIL2A_20160305T073812_R092_T36NZF_20210528T103636",
+    "S2A_MSIL2A_20160315T075212_R092_T36NZF_20210528T153145"
+   ],
+   "clear_share": 0.9946340576296514
+  },
+  "wet": {
+   "window": [
+    "2016-04-01",
+    "2016-08-31"
+   ],
+   "found": 20,
+   "n_scenes": 6,
+   "dates": [
+    "2016-05-14",
+    "2016-06-06",
+    "2016-06-13",
+    "2016-07-26",
+    "2016-08-15",
+    "2016-08-25"
+   ],
+   "ids": [
+    "S2A_MSIL2A_20160514T075222_R092_T36NZF_20210211T111038",
+    "S2A_MSIL2A_20160606T074612_R135_T36NZF_20210211T165736",
+    "S2A_MSIL2A_20160613T073612_R092_T36NZF_20210211T190647",
+    "S2A_MSIL2A_20160726T074942_R135_T36NZF_20210212T080820",
+    "S2A_MSIL2A_20160815T074942_R135_T36NZF_20210212T143239",
+    "S2A_MSIL2A_20160825T074612_R135_T36NZF_20210212T175130"
+   ],
+   "clear_share": 0.9983786045920547
+  },
+  "valid_share": 0.9940484928691469
+ },
+ "labels": {
+  "source": "Eschen et al. 2021, Dryad doi:10.5061/dryad.4xgxd258c (from Mbaabu et al. 2019 maps)",
+  "n_by_class": [
+   6842,
+   1118
+  ],
+  "edge_buffer_m": 0,
+  "extent_wsen": [
+   35.9769,
+   0.3399,
+   36.1599,
+   0.7383
+  ]
+ },
+ "trained_on": "Baringo (Marigat sublocations), Eschen et al. 2021 labels (2016)",
+ "features": [
+  "dry_blue",
+  "dry_green",
+  "dry_red",
+  "dry_nir",
+  "dry_swir1",
+  "dry_swir2",
+  "dry_ndvi",
+  "wet_blue",
+  "wet_green",
+  "wet_red",
+  "wet_nir",
+  "wet_swir1",
+  "wet_swir2",
+  "wet_ndvi",
+  "elevation"
+ ],
+ "importance": {
+  "dry_blue": 0.0536,
+  "dry_green": 0.0585,
+  "dry_red": 0.0531,
+  "dry_nir": 0.1425,
+  "dry_swir1": 0.044,
+  "dry_swir2": 0.0492,
+  "dry_ndvi": 0.0926,
+  "wet_blue": 0.0496,
+  "wet_green": 0.0539,
+  "wet_red": 0.0485,
+  "wet_nir": 0.0986,
+  "wet_swir1": 0.041,
+  "wet_swir2": 0.0437,
+  "wet_ndvi": 0.0531,
+  "elevation": 0.1181
+ },
+ "model": {
+  "type": "RandomForestClassifier",
+  "n_estimators": 1000,
+  "threshold": 0.43
+ },
+ "accuracy_spatial_cv": {
+  "overall_accuracy": 0.8914572864321608,
+  "kappa": 0.5497824797051758,
+  "prosopis_producers_accuracy": 0.6118067978533095,
+  "prosopis_users_accuracy": 0.6140035906642729,
+  "confusion_truth_by_predicted": [
+   [
+    6412,
+    430
+   ],
+   [
+    434,
+    684
+   ]
+  ]
+ },
+ "accuracy_random_cv": {
+  "overall_accuracy": 0.8903266331658292,
+  "kappa": 0.5428659089647245,
+  "prosopis_producers_accuracy": 0.6019677996422182,
+  "prosopis_users_accuracy": 0.6112624886466849,
+  "confusion_truth_by_predicted": [
+   [
+    6414,
+    428
+   ],
+   [
+    445,
+    673
+   ]
+  ]
+ },
+ "cv": {
+  "folds": 5,
+  "block_km": 2,
+  "trees_per_fold": 300
+ },
+ "area_error": {
+  "p10": 0.79,
+  "p50": 0.953,
+  "p90": 1.228,
+  "n_windows": 15,
+  "window_deg": 0.05,
+  "pixel_agreement_all_heldout_pixels": 0.89
+ },
+ "applicability": {
+  "threshold_di": 0.16723345213868768,
+  "training_points_inside": 1.0
+ },
+ "caveats": [
+  "Labels are a published map, not field points: the model copies that map's errors.",
+  "Accuracy is agreement with that map on random pixels of held-out ~2 km blocks.",
+  "Spatial CV is within Baringo; accuracy elsewhere is unknown until field checks.",
+  "Trained on one season (2016); later seasons rely on the same spectral pattern holding."
+ ]
+}
